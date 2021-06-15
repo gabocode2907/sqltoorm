@@ -1,0 +1,55 @@
+Modelo:
+from django.db import models
+
+class Usuario(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email_address = models.CharField(max_length=255)
+    age = models.IntegerField()
+
+****Crea y ejecuta los archivos de migración para crear la tabla Usuario en su base de datos.****
+py manage.py makemigrations
+py manage.py migrate
+
+****Ejecuta el shell e importe su modelo de usuario****
+py manage.py shell
+from users_app.models import *
+
+****Consulta: Crear 3 nuevos usuarios****
+In [3]: Usuario.objects.create(first_name="Gabriel",last_name="Tapia",email_address="gabriel2907@hotmail.com",age="36")
+Out[3]: <Usuario: Usuario object (1)>
+In [4]: Usuario.objects.create(first_name="Carolina",last_name="Reyes",email_address="carola_reyes@hotmail.com",age="37")
+Out[4]: <Usuario: Usuario object (2)>
+In [5]: Usuario.objects.create(first_name="Matias",last_name="Tapia",email_address="matias@hotmail.com",age="6")
+Out[5]: <Usuario: Usuario object (3)>
+
+****Consulta: recuperar todos los usuarios****
+In [6]: Usuario.objects.all()
+Out[6]: <QuerySet [<Usuario: Usuario object (1)>, <Usuario: Usuario object (2)>, <Usuario: Usuario object (3)>]>
+
+****Consulta: recuperar el último usuario****
+In [7]: Usuario.objects.last()
+Out[7]: <Usuario: Usuario object (3)>
+
+****Consulta: recuperar el primer usuario****
+In [8]: Usuario.objects.first()
+Out[8]: <Usuario: Usuario object (1)>
+
+****Consulta: Cambie el usuario con id = 3 para que su apellido sea Pancakes.****
+In [9]: user_to_update = Usuario.objects.get(id="3")
+In [10]: user_to_update.last_name = "Pancakes"
+In [11]: user_to_update.save()
+
+****Consulta: Eliminar el usuario con id = 2 de la base de datos****
+In [12]: user_to_delete = Usuario.objects.get(id="2")
+In [13]: user_to_delete.delete()
+Out[13]: (1, {'users_app.Usuario': 1})
+
+
+****Consulta: Obtenga todos los usuarios, ordenados por su nombre****
+In [7]: Usuario.objects.all().order_by("first_name")
+Out[7]: <QuerySet [<Usuario object: Gabriel Tapia gabriel2907@hotmail.com 36 (1), <Usuario object: Matias Pancakes matias@hotmail.com 6 (3)]>
+
+****BONUS Query: obtén todos los usuarios, ordenados por su nombre en orden descendente****
+In [8]: Usuario.objects.all().order_by("-first_name")
+Out[8]: <QuerySet [<Usuario object: Matias Pancakes matias@hotmail.com 6 (3), <Usuario object: Gabriel Tapia gabriel2907@hotmail.com 36 (1)]>
