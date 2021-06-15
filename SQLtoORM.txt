@@ -1,0 +1,39 @@
+SQL a ORM
+
+In [1]: from wizard_app.models import *
+
+In [2]: Wizard.objects.create(name="Harry Potter",house="Gryffindor",pet="Hedwig",year="5")
+Out[2]: <Wizard: Wizard object (1)>
+
+In [3]: Wizard.objects.create(name="Hermione Granger",house="Gryffindor",pet="Crookshanks",year="5")
+Out[3]: <Wizard: Wizard object (2)>
+
+In [4]: Wizard.objects.filter(id="1")
+Out[4]: <QuerySet [<Wizard: Wizard object (1)>]>
+
+In [5]: Wizard.objects.filter(house="Gryffindor")
+Out[5]: <QuerySet [<Wizard: Wizard object (1)>, <Wizard: Wizard object (2)>]>
+
+In [6]: Wizard.objects.get(id="1")
+Out[6]: <Wizard: Wizard object (1)>
+
+In [7]: wizard_to_update = Wizard.objects.get(id='1')
+
+In [8]: wizard_to_update.update.year = "6"
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-8-9eeca61e0efa> in <module>
+----> 1 wizard_to_update.update.year = "6"
+
+AttributeError: 'Wizard' object has no attribute 'update'
+
+In [9]: wizard_to_update.year = "6"
+
+In [10]: wizard_to_update.save()
+
+ORM a SQL
+
+insert into wizard (name,house,pet,year) values("Luna Lovegood","Ravenclaw","None","4");
+insert into wizard (name,house,pet,year) values("Padma Patil","Ravenclaw","None","5");
+select * from wizard where house = "Ravenclaw";
+update wizard set year = 5 where name = "Luna Lovegood";
